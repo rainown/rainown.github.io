@@ -37,6 +37,27 @@
             transition: transform 0.2s ease;
             width: 1000px;
         }
+
+        .biggishtable {
+            border-collapse: separate;
+            border-spacing: 5px;
+            border: 2px solid white;
+            border-radius: 15px;
+            transition: transform 0.2s ease;
+            width: 950px;
+        }
+        .unobtable {
+            border-collapse: separate;
+            border-spacing: 5px;
+            border: 2px solid white;
+            border-radius: 15px;
+            transition: transform 0.2s ease;
+            width: 950px;
+            opacity: 0.3;
+        }
+    .biggishtable:hover {
+            transform: translate(5px, 5px);
+        }
     .bigtable:hover {
             transform: translate(5px, 5px);
         }
@@ -75,7 +96,7 @@
 <body>
 <center>
 <h1><table><tr><td><image src="./un2.png" width=64 height=64></td><td>hello!</td></tr></table></h1>
-<p>My name is Rain and this is a little webpage I made to document and display my Pokemon collection.<br>More functionality may be added to the page in the future when I possess more motivation and programming skills.<br>I can be found @ rainown on Discord if you somehow found this and wanted to contact me.<br>Thanks for reading, and have a nice day/night.</p>
+<p>My name is Rain and this is a little webpage I made to document and display my Pokemon collection.<br>More functionality may be added to the page in the future when I possess more motivation and programming skills.<br>I can be reached @ rainown on Discord if you somehow found this and wanted to contact me.<br>Thanks for reading, and have a nice day/night.</p>
 <br>
 <button id="button_set1" onclick="showTables('set1')"><table><tr><td><image src="./iconf.gif" width="32" height="32"></td><td valign="center">Flawless Pokemon</td></tr></table></button>
 <button id="button_set2" onclick="showTables('set2')"><table><tr><td><image src="./icons.gif" width="32" height="32"></td><td valign="center">Flawless Shiny Pokemon</td></tr></table></button>
@@ -118,7 +139,7 @@
 
 <div id="set7" class="hidden">
 <table id="sheetfill7"></table>
-<p>loading...<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+<p>loading...</p>
 </div>
 
 </center>
@@ -282,7 +303,7 @@ window.onload = fetchData;
         const RANGE4 = "MarkedShiny!AK1:AK999";
         const RANGE5 = "ShinyAlpha!AK1:AK999";
         const RANGE6 = "EventRaid!AK1:AK999";
-        const RANGE7 = "GOShinyDex!AK1:AK999";
+        const RANGE7 = "GOShinyDex!U1:U9999";
 
 // Function to fetch data from Google Sheets API
 function fetchData() {
