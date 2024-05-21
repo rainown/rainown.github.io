@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Rain's Pokemon Collection</title>
+<link rel="shortcut icon" type="image/png" href="favicon.png">
+<style>
+        body {
+            background-color: black;
+            color: white;
+	    font-family: monospace;
+            align: center
+       }
+* {
+  box-sizing: border-box;
+}
+        button {
+            font-family: monospace;
+            background-color: #333;
+            color: white;
+            border: 1px solid;
+            border-color: black;
+            padding: 7px 20px;
+            margin: 7px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+        .active {
+            background-color: #555;
+            border: 1px solid;
+            border-color: black;
+        }
+        .bigtable {
+            border-collapse: separate;
+            border-spacing: 5px; 
+            border: 2px solid white; 
+            border-radius: 15px;
+            transition: transform 0.2s ease;
+            width: 1000px;
+        }
+        .biggishtable {           
+            border-collapse: separate;
+            border-spacing: 5px;
+            border: 2px solid white;
+            border-radius: 15px;
+            transition: transform 0.2s ease;
+            width: 400px;
+        }
+        .unobtable {
+            border-collapse: separate;
+            border-spacing: 5px;
+            border: 2px solid white;
+            border-radius: 15px;
+            transition: transform 0.2s ease;
+            width: 400px;
+            opacity: 0.3;
+        }
+.row {
+  margin-left:-5px;
+  margin-right:-5px;
+}
+  
+.column {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+    .biggishtable:hover {
+            transform: translate(5px, 5px);
+        }
+    .bigtable:hover {
+            transform: translate(5px, 5px);
+        }
+    .middletable {
+            width: 400px;
+        }
+    .righttable {
+            width: 250px;
+            padding-bottom: 3px;
+            padding-top: 3px;
+        }
+    .spaced td {
+            padding-bottom: 3px;
+            padding-top: 3px;
+        }
+            td {
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+    .zerosp td {
+            padding-left: -4px;
+            padding-right: -4px;
+        }
+    .hidden {
+            display: none;
+        }
+    .large-image {
+            width: 96px;
+            height: 96px;
+        }
+    .small-image {
+            width: 32px;
+            height: 32px;
+        }
+    .sprite img {
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+        }
+    .cell {
+    width: 96px;
+    height: 96px;
+    overflow: hidden;
+        }
+    .hlb {
+            background-color: #555;
+            border: solid;
+            border-color: white;
+        }
+
+    </style>
+<body>
+<center>
+<h1><table><tr><td><image src="./un2.png" width=64 height=64></td><td>hello!</td></tr></table></h1>
+<p>My name is Rain and this is a little webpage I made to document and display my Pokemon collection.<br>More functionality may be added to the page in the future when I possess more motivation and programming skills.<br>I can be reached @ rainown on Discord if you somehow found this and wanted to contact me.<br>Thanks for reading, and have a nice day/night.</p>
+<br>
+<button class="hlb"><table><tr><td><image src="./iconm.gif" width="48" height="48"></td><td valign="center" style=font-size:120%;>Main Series Collection</td></tr></table></button>
+<button id="button_set7" onclick="document.location='./pogo'"><table><tr><td><image src="./icong.gif" width="48" height="48"></td><td valign="center" style=font-size:120%;>Pokemon GO Collection</td></tr></table></button><br><br>
+
+<button id="button_set1" onclick="showTables('set1')"><table><tr><td><image src="./iconf.gif" width="32" height="32"></td><td valign="center">Flawless Pokemon</td></tr></table></button>
+<button id="button_set2" onclick="showTables('set2')"><table><tr><td><image src="./icons.gif" width="32" height="32"></td><td valign="center">Flawless Shiny Pokemon</td></tr></table></button>
+<button id="button_set3" onclick="showTables('set3')"><table><tr><td><image src="./iconl.gif" width="32" height="32"></td><td valign="center">Flawless Legendary/Mythical Pokemon</td></tr></table></button><br>
+<button id="button_set4" onclick="showTables('set4')"><table><tr><td><image src="./iconm.gif" width="32" height="32"></td><td valign="center">Marked Shiny Pokemon</td></tr></table></button>
+<button id="button_set5" onclick="showTables('set5')"><table><tr><td><image src="./icona.gif" width="32" height="32"></td><td valign="center">Shiny Alpha Pokemon</td></tr></table></button>
+<button id="button_set6" onclick="showTables('set6')"><table><tr><td><image src="./icone.gif" width="32" height="32"></td><td valign="center">Event Pokemon</td></tr></table></button><br>
+<br><br>
+
+<div id="set1">
+<div style="width:1012px;" align=center id="sheetfill"></div>
+<p>loading...</p>
+</div>
+
+<div id="set2" class="hidden">
+<div style="width:1012px;" align=center id="sheetfill2"></div>
+<p>loading...</p>
+</div>
+
+<div id="set3" class="hidden">
+<div style="width:1012px;" align=center id="sheetfill3"></div>
+<p>loading...</p>
+</div>
+
+<div id="set4" class="hidden">
+<div style="width:1012px;" align=center id="sheetfill4"></div>
+<p>loading...</p>
+</div>
+
+<div id="set5" class="hidden">
+<div style="width:1012px;" align=center id="sheetfill5"></div>
+<p>loading...</p>
+</div>
+
+<div id="set6" class="hidden">
+<div style="width:1012px;" align=center id="sheetfill6"></div>
+<p>loading...</p>
+</div>
+
+</center>
+
+<script>
+    var currentSet = '';
+    var currentButton = '';
+
+    function showTables(setId) {
+        if (currentSet !== '') {
+            var previousSet = document.getElementById(currentSet);
+            previousSet.classList.add('hidden');
+        }
+
+        var selectedButton = document.getElementById('button_' + setId);
+        selectedButton.classList.add('active');
+
+        if (currentButton !== '') {
+            currentButton.classList.remove('active');
+        }
+        currentButton = document.getElementById('button_' + setId);
+        currentButton.classList.add('active');
+
+        var selectedSet = document.getElementById(setId);
+        selectedSet.classList.remove('hidden');
+
+        currentSet = setId;
+    }
+
+    showTables('set1');
+
+function populateDivWithData(data) {
+    const container = document.getElementById('sheetfill');
+
+    container.innerHTML = ''; // Clear previous content
+
+    let content = ''; // Initialize an empty string to accumulate the content
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' '; // Append each cell's data followed by a space
+        });
+    });
+
+    container.innerHTML = content.trim(); // Set the accumulated content as the inner HTML of the container
+}
+
+function populateDiv2WithData(data) {
+    const container = document.getElementById('sheetfill2');
+
+    container.innerHTML = ''; // Clear previous content
+
+    let content = ''; // Initialize an empty string to accumulate the content
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' '; // Append each cell's data followed by a space
+        });
+    });
+
+    container.innerHTML = content.trim(); // Set the accumulated content as the inner HTML of the container
+}
+
+function populateDiv3WithData(data) {
+    const container = document.getElementById('sheetfill3');
+
+    container.innerHTML = ''; // Clear previous content
+
+    let content = ''; // Initialize an empty string to accumulate the content
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' '; // Append each cell's data followed by a space
+        });
+    });
+
+    container.innerHTML = content.trim(); // Set the accumulated content as the inner HTML of the container
+}
+
+function populateDiv4WithData(data) {
+    const container = document.getElementById('sheetfill4');
+
+    container.innerHTML = ''; // Clear previous content
+
+    let content = ''; // Initialize an empty string to accumulate the content
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' '; // Append each cell's data followed by a space
+        });
+    });
+
+    container.innerHTML = content.trim(); // Set the accumulated content as the inner HTML of the container
+}
+
+function populateDiv5WithData(data) {
+    const container = document.getElementById('sheetfill5');
+
+    container.innerHTML = ''; // Clear previous content
+
+    let content = ''; // Initialize an empty string to accumulate the content
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' '; // Append each cell's data followed by a space
+        });
+    });
+
+    container.innerHTML = content.trim(); // Set the accumulated content as the inner HTML of the container
+}
+
+function populateDiv6WithData(data) {
+    const container = document.getElementById('sheetfill6');
+
+    container.innerHTML = ''; // Clear previous content
+
+    let content = ''; // Initialize an empty string to accumulate the content
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' '; // Append each cell's data followed by a space
+        });
+    });
+
+    container.innerHTML = content.trim(); // Set the accumulated content as the inner HTML of the container
+}
+window.onload = fetchData;
+
+if(document.URL.indexOf("#shiny") >= 0){ 
+document.getElementById('button_set2').click();
+}
+if(document.URL.indexOf("#legendary") >= 0){ 
+document.getElementById('button_set3').click();
+}
+if(document.URL.indexOf("#marked") >= 0){ 
+document.getElementById('button_set4').click();
+}
+if(document.URL.indexOf("#alpha") >= 0){ 
+document.getElementById('button_set5').click();
+}
+if(document.URL.indexOf("#event") >= 0){ 
+document.getElementById('button_set6').click();
+}
+
+        const SPREADSHEET_ID = "18nZiea5nRIqAA42Q-pQpNYCL3ZreuNUqZ0AxuOsn7FY";
+        const API_KEY = "AIzaSyAVF_cJZiGHJm9ImFnK2Ed2S_2Lm_k86Q8";
+        const RANGE = "FlawlessRegular!AK1:AK9999";
+        const RANGE2 = "FlawlessShiny!AK1:AK9999";
+        const RANGE3 = "LegendaryMythical!AK1:AK9999";
+        const RANGE4 = "MarkedShiny!AK1:AK9999";
+        const RANGE5 = "ShinyAlpha!AK1:AK9999";
+        const RANGE6 = "EventRaid!AK1:AK9999";
+
+function fetchData() {
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => populateDivWithData(data))
+        .catch(error => console.error('Error fetching data:', error));
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE2}?key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => populateDiv2WithData(data))
+        .catch(error => console.error('Error fetching data:', error));
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE3}?key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => populateDiv3WithData(data))
+        .catch(error => console.error('Error fetching data:', error));
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE4}?key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => populateDiv4WithData(data))
+        .catch(error => console.error('Error fetching data:', error));
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE5}?key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => populateDiv5WithData(data))
+        .catch(error => console.error('Error fetching data:', error));
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE6}?key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => populateDiv6WithData(data))
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+</script>
+
+</body>
+</html>
