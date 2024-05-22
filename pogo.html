@@ -147,10 +147,28 @@
             background-color: #111;
             border-color: white;
 }
+
+        .topb {
+            font-family: monospace;
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+}
+
+        topb:hover {
+            background-color: #555;
+        }
     </style>
 <body>
 <center>
-<h1><table><tr><td><image class=gelatine src="./un2.png" width=64 height=64></td><td>hello!</td></tr></table></h1>
+<h1><table><tr><td><image src="./un2.png" width=64 height=64></td><td>hello!</td></tr></table></h1>
 <p>My name is Rain and this is a little webpage I made to document and display my Pokemon collection.<br>More functionality may be added to the page in the future when I possess more motivation and programming skills.<br>I can be reached @ rainown on Discord if you somehow found this and wanted to contact me.<br>Thanks for reading, and have a nice day/night.</p>
 <button class=lkb onclick="document.location='./mainseries'">This page contains my Pokemon GO shiny living dex. Click here to instead view my main series Pokemon collection.</button><br>
 
@@ -158,6 +176,8 @@
 <button id="button_set8" onclick="showTables('set8')"><table><tr><td><image src="./icono.gif" width="32" height="32"></td><td valign="center">Show Obtained Pokemon</td></tr></table></button>
 <button id="button_set9" onclick="showTables('set9')"><table><tr><td><image src="./iconu.gif" width="32" height="32"></td><td valign="center">Show Unobtained Pokemon</td></tr></table></button><br>
 <br><br>
+
+<button onclick="topFunction()" class="topb" title="Scroll to Top">Scroll To Top</button>
 
 <div id="set7">
 <div style="width:1022px;" align=center id="sheetfill7"></div>
@@ -281,6 +301,11 @@ function fetchData() {
         .then(response => response.json())
         .then(data => populateDiv9WithData(data))
         .catch(error => console.error('Error fetching data:', error));
+}
+
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
 </script>
