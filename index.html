@@ -24,7 +24,6 @@
             border-radius: 10px;
             cursor: pointer;
         }
-
         button:hover {
             background-color: #555;
         }
@@ -36,7 +35,7 @@
         .bigtable {
             border-collapse: separate;
             border-spacing: 5px; 
-            border: 2px solid white; 
+            border: 1px solid white; 
             border-radius: 15px;
             transition: transform 0.2s ease;
             width: 1000px;
@@ -77,7 +76,10 @@
             transform: translate(5px, 5px);
         }
     .bigtable:hover {
-            transform: translate(5px, 5px);
+            transform: scale(1.05);
+        }
+    .bigtable:hover .sprite {
+    animation: gelatine 1.5s infinite;
         }
     .middletable {
             width: 400px;
@@ -125,15 +127,31 @@
             border: solid;
             border-color: white;
         }
-
+.gelatine {
+  animation: gelatine 1.5s infinite;
+}
+@keyframes gelatine {
+  from, to { transform: scale(1, 1); }
+  25% { transform: scale(0.9, 1.1); }
+  50% { transform: scale(1.1, 0.9); }
+  75% { transform: scale(0.95, 1.05); }
+}
+     .lkb {
+            background-color: black;
+            border: solid 1px;
+            border-color: black;
+            transition-duration: 0.3s;
+}
+     .lkb:hover {
+            background-color: #111;
+            border-color: white;
+}
     </style>
 <body>
 <center>
-<h1><table><tr><td><image src="./un2.png" width=64 height=64></td><td>hello!</td></tr></table></h1>
+<h1><table><tr><td><image class=gelatine src="./un2.png" width=64 height=64></td><td>hello!</td></tr></table></h1>
 <p>My name is Rain and this is a little webpage I made to document and display my Pokemon collection.<br>More functionality may be added to the page in the future when I possess more motivation and programming skills.<br>I can be reached @ rainown on Discord if you somehow found this and wanted to contact me.<br>Thanks for reading, and have a nice day/night.</p>
-<br>
-<button class="hlb"><table><tr><td><image src="./iconm.gif" width="48" height="48"></td><td valign="center" style=font-size:120%;>Main Series Collection</td></tr></table></button>
-<button id="button_set7" onclick="document.location='./pogo'"><table><tr><td><image src="./icong.gif" width="48" height="48"></td><td valign="center" style=font-size:120%;>Pokemon GO Collection</td></tr></table></button><br><br>
+<button class=lkb id="button_set7" onclick="document.location='./pogo'">This page contains my main series Pokemon collection. Click here to instead view my Pokemon GO shiny living dex.</button><br>
 
 <button id="button_set1" onclick="showTables('set1')"><table><tr><td><image src="./iconf.gif" width="32" height="32"></td><td valign="center">Flawless Pokemon</td></tr></table></button>
 <button id="button_set2" onclick="showTables('set2')"><table><tr><td><image src="./icons.gif" width="32" height="32"></td><td valign="center">Flawless Shiny Pokemon</td></tr></table></button>
