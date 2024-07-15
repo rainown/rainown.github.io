@@ -118,6 +118,11 @@
     height: 84px;
     object-fit: contain;
         }
+    .sprite2 img {
+    width: 128px;
+    height: 128px;
+    object-fit: contain;
+        }
     .cell {
     width: 96px;
     height: 96px;
@@ -165,16 +170,24 @@
         topb:hover {
             background-color: #555;
         }
+        .bgimage {
+    width: 350px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
     </style>
 <body>
 <center>
 <h1><table><tr><td><image src="./un2.png" width=64 height=64></td><td>hello!</td></tr></table></h1>
-<p>My name is Rain and this is a little webpage I made to document and display my Pokemon collection.<br>More functionality may be added to the page in the future when I possess more motivation and programming skills.<br>I can be reached @ rainown on Discord if you somehow found this and wanted to contact me.<br>Thanks for reading, and have a nice day/night.</p>
-<button class=lkb onclick="document.location='./mainseries'">This page contains my Pokemon GO shiny living dex. Click here to instead view my main series Pokemon collection.</button><br>
+<button class=lkb>My name is Rain and this is a little webpage I made to document and display my Pokemon collection.<br>More functionality may be added to the page in the future when I possess more motivation and programming skills.<br>I can be reached @ rainown on Discord if you somehow found this and wanted to contact me.<br>Thanks for reading, and have a nice day/night.</button>
+<button class=lkb onclick="document.location='./mainseries'">This page contains my Pokemon GO collection. Click here to instead view my main series Pokemon collection.</button><br>
 
-<button id="button_set7" onclick="showTables('set7')"><table><tr><td><image src="./icona.gif" width="32" height="32"></td><td valign="center">Show All</td></tr></table></button>
+<button id="button_set7" onclick="showTables('set7')"><table><tr><td><image src="./icona.gif" width="32" height="32"></td><td valign="center">Shiny Living Dex</td></tr></table></button>
 <button id="button_set8" onclick="showTables('set8')"><table><tr><td><image src="./icono.gif" width="32" height="32"></td><td valign="center">Show Obtained Only</td></tr></table></button>
-<button id="button_set9" onclick="showTables('set9')"><table><tr><td><image src="./iconu.gif" width="32" height="32"></td><td valign="center">Show Unobtained Only</td></tr></table></button><br>
+<button id="button_set9" onclick="showTables('set9')"><table><tr><td><image src="./iconu.gif" width="32" height="32"></td><td valign="center">Show Unobtained Only</td></tr></table></button>
+<button id="button_set10" onclick="showTables('set10')"><table><tr><td><image src="./iconb.gif" width="32" height="32"></td><td valign="center">Background Collection</td></tr></table></button><br>
 <br>
 
 <button onclick="topFunction()" class="topb" title="Scroll to Top">Scroll To Top</button>
@@ -191,6 +204,11 @@
 
 <div id="set9" class="hidden">
 <div style="width:1022px;" align=center id="sheetfill9"></div>
+<p>loading...</p>
+</div>
+
+<div id="set10" class="hidden">
+<div style="width:760px;" align=center id="sheetfill10"></div>
 <p>loading...</p>
 </div>
 </center>
@@ -221,6 +239,22 @@
     }
 
     showTables('set7');
+
+function populateDiv10WithData(data) {
+    const container = document.getElementById('sheetfill10');
+
+    container.innerHTML = '';
+
+    let content = '';
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' ';
+        });
+    });
+
+    container.innerHTML = content.trim();
+}
 
 function populateDiv9WithData(data) {
     const container = document.getElementById('sheetfill9');
@@ -278,12 +312,16 @@ document.getElementById('button_set9').click();
 if(document.URL.indexOf("#owned") >= 0){ 
 document.getElementById('button_set8').click();
 }
+if(document.URL.indexOf("#backgrounds") >= 0){ 
+document.getElementById('button_set10').click();
+}
 
         const SPREADSHEET_ID = "18nZiea5nRIqAA42Q-pQpNYCL3ZreuNUqZ0AxuOsn7FY";
         const API_KEY = "AIzaSyAVF_cJZiGHJm9ImFnK2Ed2S_2Lm_k86Q8";
         const RANGE7 = "GOShinyDex!U1:U9999";
         const RANGE8 = "GOShinyDex!V1:V9999";
         const RANGE9 = "GOShinyDex!W1:W9999";
+        const RANGE10 = "GOBackgroundDex!W1:W9999";
 
 function fetchData() {
 
@@ -300,6 +338,11 @@ function fetchData() {
     fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE9}?key=${API_KEY}`)
         .then(response => response.json())
         .then(data => populateDiv9WithData(data))
+        .catch(error => console.error('Error fetching data:', error));
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE10}?key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => populateDiv10WithData(data))
         .catch(error => console.error('Error fetching data:', error));
 }
 
