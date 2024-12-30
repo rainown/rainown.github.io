@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abnordle - Guess the Abnormality!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: #111111;
+            box-shadow: 0 4px 6px rgba(ff, ff, ff, 0.1);
+            border-radius: 8px;
+            width: 70%;
+            position: relative;
+            color: white;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 1em;
+            width: calc(50% - 22px);
+            box-sizing: border-box;
+            background-color: #111111;
+            color: white;
+            border: 1px solid #555555;
+        }
+        #feedback {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #ffffff;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #ffffff;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            width: 14.28%;
+            height: 20px;
+            color: white;
+        }
+        .correct-cell {
+            background-color: rgba(0, 255, 0, 0.3);
+            color: white;
+            height: 60px;
+        }
+        .incorrect-cell {
+            background-color: rgba(255, 0, 0, 0.3);
+            color: white;
+            height: 60px;
+        }
+        th {
+            position: relative;
+        }
+        th:hover::after {
+            content: attr(data-description);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #111111;
+            color: #ffffff;
+            padding: 5px;
+            font-size: 0.8em;
+            border-radius: 4px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        .autocomplete-suggestions {
+            border: 1px solid #111111;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            background-color: black;
+            width: calc(50% - 22px);
+            left: 50%;
+            transform: translateX(-50%);
+            box-sizing: border-box;
+            z-index: 1000;
+            color: white;
+        }
+        .autocomplete-suggestion {
+            padding: 8px;
+            cursor: pointer;
+        }
+        .autocomplete-suggestion:hover {
+            background-color: #111111;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Abnordle: Guess the Abnormality</h1>
+        <p>(warning: still under development and may be scuffed. also it only includes abnos from lobcorp and limbus)</p>
+        <div style="position: relative;">
+            <input type="text" id="characterInput" placeholder="Start typing a name or ID number..." oninput="showSuggestions()">
+            <div id="autocompleteSuggestions" class="autocomplete-suggestions"></div>
+        </div>
+        <button onclick="submitGuess()">Submit</button>
+        <br><div id="feedback"></div>
+        <div id="comparison">
+            <br><table id="traitsTable">
+                <thead>
+                    <tr>
+                        <th data-description="The name of the abnormality">Name</th>
+                        <th data-description="The first letter of the abnormality's ID indicates its origin">Origin</th>
+                        <th data-description="The first two numbers of the abnormality's ID are related to its appearance">Appearance</th>
+                        <th data-description="Only applies to abnormalities that existed in Lobotomy Corporation">Work Damage</th>
+                        <th data-description="Army in Black is assigned its true risk level">Risk Level</th>
+                        <th data-description="Only applies to abnormalities that existed in Lobotomy Corporation">Energy Boxes</th>
+                        <th data-description="Only applies to abnormalities that existed in Lobotomy Corporation">Qliphoth Counter</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table><br><br>
+        </div>
+    </div>
+
+    <script>
+        // Predefined list of characters and their traits
+        const characters = [
+{ name: "Standard Training-Dummy Rabbit (0-00-00)", traits: ["Standard Training-Dummy Rabbit", "???", "00 (Unknown)", "Red", "TETH", "10", "1"] },
+{ name: "Scorched Girl (F-01-02)", traits: ["Scorched Girl", "F (Fairy Tale)", "01 (Humanlike)", "Red", "TETH", "12", "2"] },
+{ name: "One Sin and Hundreds of Good Deeds (O-03-03)", traits: ["One Sin and Hundreds of Good Deeds", "O (Original)", "03 (Otherworldly)", "White", "ZAYIN", "10", "N/A"] },
+{ name: "The Queen of Hatred (O-01-04)", traits: ["The Queen of Hatred", "O (Original)", "01 (Humanlike)", "Black", "WAW", "22", "2"] },
+{ name: "Happy Teddy Bear (T-04-06)", traits: ["Happy Teddy Bear", "T (Trauma)", "04 (Inanimate)", "White", "HE", "15", "N/A"] },
+{ name: "Red Shoes (O-04-08)", traits: ["Red Shoes", "O (Original)", "04 (Inanimate)", "Red", "HE", "16", "1"] },
+{ name: "Theresia (T-09-09)", traits: ["Theresia", "T (Trauma)", "09 (Tool)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Old Lady (O-01-12)", traits: ["Old Lady", "O (Original)", "01 (Humanlike)", "White", "TETH", "14", "4"] },
+{ name: "Nameless Fetus (O-01-15)", traits: ["Nameless Fetus", "O (Original)", "01 (Humanlike)", "Red", "HE", "18", "1"] },
+{ name: "The Lady Facing the Wall (F-01-18)", traits: ["The Lady Facing the Wall", "F (Fairy Tale)", "01 (Humanlike)", "White", "TETH", "14", "2"] },
+{ name: "Nothing There (O-06-20)", traits: ["Nothing There", "O (Original)", "06 (Unidentified)", "Red", "ALEPH", "33", "1"] },
+{ name: "1.76 MHz (T-06-27)", traits: ["1.76 MHz", "T (Trauma)", "06 (Unidentified)", "White", "TETH", "12", "4"] },
+{ name: "Singing Machine (O-05-30)", traits: ["Singing Machine", "O (Original)", "05 (Machine)", "White", "HE", "18", "1"] },
+{ name: "The Silent Orchestra (T-01-31)", traits: ["The Silent Orchestra", "T (Trauma)", "01 (Humanlike)", "White", "ALEPH", "30", "2"] },
+{ name: "Warm-Hearted Woodsman (F-05-32)", traits: ["Warm-Hearted Woodsman", "F (Fairy Tale)", "05 (Machine)", "White", "HE", "18", "1"] },
+{ name: "The Snow Queen (F-01-37)", traits: ["The Snow Queen", "F (Fairy Tale)", "01 (Humanlike)", "White", "HE", "18", "N/A"] },
+{ name: "Big Bird (O-02-40)", traits: ["Big Bird", "O (Original)", "02 (Animalistic)", "Black", "WAW", "20", "5"] },
+{ name: "All-Around Helper (T-05-41)", traits: ["All-Around Helper", "T (Trauma)", "05 (Machine)", "Red", "HE", "16", "2"] },
+{ name: "Snow White's Apple (F-04-42)", traits: ["Snow White's Apple", "F (Fairy Tale)", "04 (Inanimate)", "Black", "WAW", "20", "1"] },
+{ name: "Spider Bud (T-02-43)", traits: ["Spider Bud", "T (Trauma)", "02 (Animalistic)", "Red", "TETH", "14", "N/A"] },
+{ name: "Beauty and the Beast (F-02-44)", traits: ["Beauty and the Beast", "F (Fairy Tale)", "02 (Animalistic)", "White", "TETH", "12", "N/A"] },
+{ name: "Plague Doctor (O-01-45)", traits: ["Plague Doctor", "O (Original)", "01 (Humanlike)", "White", "ZAYIN", "10", "1"] },
+{ name: "WhiteNight (T-03-46)", traits: ["WhiteNight", "T (Trauma)", "03 (Otherworldly)", "Pale", "ALEPH", "35", "3"] },
+{ name: "Don't Touch Me (O-05-47)", traits: ["Don't Touch Me", "O (Original)", "05 (Machine)", "None", "ZAYIN", "??", "N/A"] },
+{ name: "Rudolta of the Sleigh (F-02-49)", traits: ["Rudolta of the Sleigh", "F (Fairy Tale)", "02 (Animalistic)", "White", "HE", "18", "2"] },
+{ name: "Queen Bee (T-04-50)", traits: ["Queen Bee", "T (Trauma)", "04 (Inanimate)", "Red", "WAW", "22", "1"] },
+{ name: "Bloodbath (T-05-51)", traits: ["Bloodbath", "T (Trauma)", "05 (Machine)", "White", "TETH", "14", "N/A"] },
+{ name: "Opened Can of WellCheers (F-05-52)", traits: ["Opened Can of WellCheers", "F (Fairy Tale)", "05 (Machine)", "Red", "ZAYIN", "10", "N/A"] },
+{ name: "Alriune (T-04-53)", traits: ["Alriune", "T (Trauma)", "04 (Inanimate)", "White", "WAW", "22", "1"] },
+{ name: "Forsaken Murderer (T-01-54)", traits: ["Forsaken Murderer", "T (Trauma)", "01 (Humanlike)", "Red", "TETH", "14", "1"] },
+{ name: "Child of the Galaxy (O-01-55)", traits: ["Child of the Galaxy", "O (Original)", "01 (Humanlike)", "Black", "HE", "16", "5"] },
+{ name: "Punishing Bird (O-02-56)", traits: ["Punishing Bird", "O (Original)", "02 (Animalistic)", "Red", "TETH", "12", "4"] },
+{ name: "Little Red Riding Hooded Mercenary (F-01-57)", traits: ["Little Red Riding Hooded Mercenary", "F (Fairy Tale)", "01 (Humanlike)", "Red", "WAW", "20", "3"] },
+{ name: "Big and Will be Bad Wolf (F-02-58)", traits: ["Big and Will be Bad Wolf", "F (Fairy Tale)", "02 (Animalistic)", "Red", "WAW", "22", "2"] },
+{ name: "Fragment of the Universe (O-03-60)", traits: ["Fragment of the Universe", "O (Original)", "03 (Otherworldly)", "Black", "TETH", "12", "2"] },
+{ name: "Crumbling Armor (O-05-61)", traits: ["Crumbling Armor", "O (Original)", "05 (Machine)", "Red", "TETH", "12", "N/A"] },
+{ name: "Judgement Bird (O-02-62)", traits: ["Judgement Bird", "O (Original)", "02 (Animalistic)", "Pale", "WAW", "24", "2"] },
+{ name: "Apocalypse Bird (O-02-63)", traits: ["Apocalypse Bird", "O (Original)", "02 (Animalistic)", "Black", "ALEPH", "12", "N/A"] },
+{ name: "The King of Greed (O-01-64)", traits: ["The King of Greed", "O (Original)", "01 (Humanlike)", "Red", "WAW", "22", "1"] },
+{ name: "The Little Prince (O-04-66)", traits: ["The Little Prince", "O (Original)", "04 (Inanimate)", "Black", "WAW", "24", "2"] },
+{ name: "Laetitia (O-01-67)", traits: ["Laetitia", "O (Original)", "01 (Humanlike)", "Black", "HE", "16", "N/A"] },
+{ name: "Funeral of the Dead Butterflies (T-01-68)", traits: ["Funeral of the Dead Butterflies", "T (Trauma)", "01 (Humanlike)", "White", "HE", "16", "2"] },
+{ name: "Der Freischütz (F-01-69)", traits: ["Der Freischütz", "F (Fairy Tale)", "01 (Humanlike)", "Black", "HE", "18", "3"] },
+{ name: "Dream of a Black Swan (F-02-70)", traits: ["Dream of a Black Swan", "F (Fairy Tale)", "02 (Animalistic)", "White", "WAW", "24", "5"] },
+{ name: "The Dreaming Current (T-02-71)", traits: ["The Dreaming Current", "T (Trauma)", "02 (Animalistic)", "White", "WAW", "20", "2"] },
+{ name: "The Burrowing Heaven (O-04-72)", traits: ["The Burrowing Heaven", "O (Original)", "04 (Inanimate)", "Black", "WAW", "24", "3"] },
+{ name: "The Knight of Despair (O-01-73)", traits: ["The Knight of Despair", "O (Original)", "01 (Humanlike)", "White", "WAW", "22", "N/A"] },
+{ name: "The Naked Nest (O-02-74)", traits: ["The Naked Nest", "O (Original)", "02 (Animalistic)", "Red", "WAW", "22", "N/A"] },
+{ name: "The Mountain of Smiling Bodies (T-01-75)", traits: ["The Mountain of Smiling Bodies", "T (Trauma)", "01 (Humanlike)", "Black", "ALEPH", "30", "2"] },
+{ name: "Schadenfreude (O-05-76)", traits: ["Schadenfreude", "O (Original)", "05 (Machine)", "Red", "HE", "18", "2"] },
+{ name: "The Heart of Aspiration (T-09-77)", traits: ["The Heart of Aspiration", "T (Trauma)", "09 (Tool)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Notes from a Crazed Researcher (T-09-78)", traits: ["Notes from a Crazed Researcher", "T (Trauma)", "09 (Tool)", "None", "HE", "N/A", "N/A"] },
+{ name: "Flesh Idol (T-09-79)", traits: ["Flesh Idol", "T (Trauma)", "09 (Tool)", "None", "WAW", "N/A", "N/A"] },
+{ name: "Giant Tree Sap (T-09-80)", traits: ["Giant Tree Sap", "T (Trauma)", "09 (Tool)", "None", "HE", "N/A", "N/A"] },
+{ name: "Mirror of Adjustment (O-09-81)", traits: ["Mirror of Adjustment", "O (Original)", "09 (Tool)", "None", "ZAYIN", "N/A", "N/A"] },
+{ name: "Shelter from the 27th of March (T-09-82)", traits: ["Shelter from the 27th of March", "T (Trauma)", "09 (Tool)", "None", "HE", "N/A", "N/A"] },
+{ name: "Fairy Festival (F-04-83)", traits: ["Fairy Festival", "F (Fairy Tale)", "04 (Inanimate)", "Red", "ZAYIN", "10", "N/A"] },
+{ name: "Meat Lantern (O-04-84)", traits: ["Meat Lantern", "O (Original)", "04 (Inanimate)", "White", "TETH", "14", "1"] },
+{ name: "We Can Change Anything (T-09-85)", traits: ["We Can Change Anything", "T (Trauma)", "09 (Tool)", "None", "ZAYIN", "N/A", "N/A"] },
+{ name: "Express Train to Hell (T-09-86)", traits: ["Express Train to Hell", "T (Trauma)", "09 (Tool)", "None", "WAW", "N/A", "N/A"] },
+{ name: "Scarecrow Searching for Wisdom (F-01-87)", traits: ["Scarecrow Searching for Wisdom", "F (Fairy Tale)", "01 (Humanlike)", "White", "HE", "18", "1"] },
+{ name: "Dimensional Refraction Variant (O-03-88)", traits: ["Dimensional Refraction Variant", "O (Original)", "03 (Otherworldly)", "White", "WAW", "22", "2"] },
+{ name: "CENSORED (O-03-89)", traits: ["CENSORED", "O (Original)", "03 (Otherworldly)", "Black", "ALEPH", "32", "2"] },
+{ name: "Skin Prophecy (T-09-90)", traits: ["Skin Prophecy", "T (Trauma)", "09 (Tool)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Portrait of Another World (O-09-91)", traits: ["Portrait of Another World", "O (Original)", "09 (Tool)", "None", "HE", "N/A", "N/A"] },
+{ name: "Today's Shy Look (O-01-92)", traits: ["Today's Shy Look", "O (Original)", "01 (Humanlike)", "Black", "TETH", "12", "N/A"] },
+{ name: "Blue Star (O-03-93)", traits: ["Blue Star", "O (Original)", "03 (Otherworldly)", "White", "ALEPH", "33", "2"] },
+{ name: "You Must Be Happy (T-09-94)", traits: ["You Must Be Happy", "T (Trauma)", "09 (Tool)", "None", "ZAYIN", "N/A", "N/A"] },
+{ name: "Luminous Bracelet (O-09-95)", traits: ["Luminous Bracelet", "O (Original)", "09 (Tool)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Behavior Adjustment (O-09-96)", traits: ["Behavior Adjustment", "O (Original)", "09 (Tool)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Old Faith and Promise (T-09-97)", traits: ["Old Faith and Promise", "T (Trauma)", "09 (Tool)", "None", "ZAYIN", "N/A", "N/A"] },
+{ name: "Porccubus (O-02-98)", traits: ["Porccubus", "O (Original)", "02 (Animalistic)", "Black", "HE", "18", "2"] },
+{ name: "Void Dream (T-02-99)", traits: ["Void Dream", "T (Trauma)", "02 (Animalistic)", "Black", "TETH", "14", "2"] },
+{ name: "Grave of Cherry Blossoms (O-04-100)", traits: ["Grave of Cherry Blossoms", "O (Original)", "04 (Inanimate)", "White", "TETH", "12", "3"] },
+{ name: "The Firebird (O-02-101)", traits: ["The Firebird", "O (Original)", "02 (Animalistic)", "Red", "WAW", "24", "3"] },
+{ name: "Yin (O-05-102)", traits: ["Yin", "O (Original)", "05 (Machine)", "Black", "WAW", "20", "2"] },
+{ name: "Yang (O-07-103)", traits: ["Yang", "O (Original)", "07 (Tool)", "None", "WAW", "N/A", "N/A"] },
+{ name: "Backward Clock (D-09-104)", traits: ["Backward Clock", "D (Donor)", "09 (Tool)", "None", "WAW", "N/A", "N/A"] },
+{ name: "Il Pianto della Luna (D-01-105)", traits: ["Il Pianto della Luna", "D (Donor)", "01 (Humanlike)", "White", "WAW", "20", "3"] },
+{ name: "Army In Black (D-01-106)", traits: ["Army In Black", "D (Donor)", "01 (Humanlike)", "White", "ZAYIN", "30", "3"] },
+{ name: "Ppodae (D-02-107)", traits: ["Ppodae", "D (Donor)", "02 (Animalistic)", "Red", "TETH", "12", "2"] },
+{ name: "Parasite Tree (D-04-108)", traits: ["Parasite Tree", "D (Donor)", "04 (Inanimate)", "White", "WAW", "24", "1"] },
+{ name: "Melting Love (D-03-109)", traits: ["Melting Love", "D (Donor)", "03 (Otherworldly)", "Black", "ALEPH", "32", "3"] },
+{ name: "Clouded Monk (D-01-110)", traits: ["Clouded Monk", "D (Donor)", "01 (Humanlike)", "White", "WAW", "22", "3"] },
+{ name: "You're Bald... (Bald-Is-Awesome!)", traits: ["You're Bald...", "???", "00 (Unknown)", "Black", "ZAYIN", "6", "N/A"] },
+{ name: "Ebony Queen's Apple (F-04-03-04)", traits: ["Ebony Queen's Apple", "F (Fairy Tale)", "04 (Inanimate)", "None", "WAW", "N/A", "N/A"] },
+{ name: "My Form Empties (M-04-04-04)", traits: ["My Form Empties", "M (Mythical)", "04 (Inanimate)", "None", "WAW", "N/A", "N/A"] },
+{ name: "Doomsday Calendar (M-04-04-05)", traits: ["Doomsday Calendar", "M (Mythical)", "04 (Inanimate)", "None", "HE", "N/A", "N/A"] },
+{ name: "Golden Apple (O-02-04-06)", traits: ["Golden Apple", "O (Original)", "02 (Animalistic)", "None", "HE", "N/A", "N/A"] },
+{ name: "Have You Become Strong (T-04-10-06)", traits: ["Have You Become Strong", "T (Trauma)", "04 (Inanimate)", "None", "???", "N/A", "N/A"] },
+{ name: "Alleyway Watchdog (O-02-10-11)", traits: ["Alleyway Watchdog", "O (Original)", "02 (Animalistic)", "None", "HE", "N/A", "N/A"] },
+{ name: "Pink Shoes (F-04-10-13)", traits: ["Pink Shoes", "F (Fairy Tale)", "04 (Inanimate)", "None", "???", "N/A", "N/A"] },
+{ name: "Baba Yaga (F-05-10-18)", traits: ["Baba Yaga", "F (Fairy Tale)", "05 (Machine)", "None", "???", "N/A", "N/A"] },
+{ name: "Drifting Fox (T-02-11-03)", traits: ["Drifting Fox", "T (Trauma)", "02 (Animalistic)", "None", "HE", "N/A", "N/A"] },
+{ name: "Shock Centipede (T-02-11-04)", traits: ["Shock Centipede", "T (Trauma)", "02 (Animalistic)", "None", "HE", "N/A", "N/A"] },
+{ name: "Brazen Bull (M-01-11-07)", traits: ["Brazen Bull", "M (Mythical)", "01 (Humanlike)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Fairy Gentleman (F-01-11-12)", traits: ["Fairy Gentleman", "F (Fairy Tale)", "01 (Humanlike)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Fairy-Long-Legs (F-01-11-15)", traits: ["Fairy-Long-Legs", "F (Fairy Tale)", "01 (Humanlike)", "None", "TETH", "N/A", "N/A"] },
+{ name: "So That No One Will Cry (T-04-11-20)", traits: ["So That No One Will Cry", "T (Trauma)", "04 (Inanimate)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Headless Ichthys (O-02-11-26)", traits: ["Headless Ichthys", "O (Original)", "02 (Animalistic)", "None", "HE", "N/A", "N/A"] },
+{ name: "Fairy Festival (F-04-83)", traits: ["Fairy Festival", "F (Fairy Tale)", "04 (Inanimate)", "None", "ZAYIN", "N/A", "N/A"] },
+{ name: "Funeral of the Dead Butterflies (T-01-68)", traits: ["Funeral of the Dead Butterflies", "T (Trauma)", "01 (Humanlike)", "None", "HE", "N/A", "N/A"] },
+{ name: "kqe-1j-23 (O-06-20-02)", traits: ["kqe-1j-23", "O (Original)", "06 (Unidentified)", "None", "HE", "N/A", "N/A"] },
+{ name: "Spiral of Contempt (T-03-20-04)", traits: ["Spiral of Contempt", "T (Trauma)", "03 (Otherworldly)", "None", "WAW", "N/A", "N/A"] },
+{ name: "Ardor Blossom Moth (O-01-20-07)", traits: ["Ardor Blossom Moth", "O (Original)", "01 (Humanlike)", "None", "HE", "N/A", "N/A"] },
+{ name: "Drenched Gossypium (O-04-20-11)", traits: ["Drenched Gossypium", "O (Original)", "04 (Inanimate)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Faelantern (F-04-21-03)", traits: ["Faelantern", "F (Fairy Tale)", "04 (Inanimate)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Dream-Devouring Siltcurrent (T-02-21-06)", traits: ["Dream-Devouring Siltcurrent", "T (Trauma)", "02 (Animalistic)", "None", "WAW", "N/A", "N/A"] },
+{ name: "Portrait of a Certain Day (O-02-20-05)", traits: ["Portrait of a Certain Day", "O (Original)", "02 (Animalistic)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Dreaming Electric Sheep (F-01-20-08)", traits: ["Dreaming Electric Sheep", "F (Fairy Tale)", "01 (Humanlike)", "None", "HE", "N/A", "N/A"] },
+{ name: "The King in Binds (O-01-20-12)", traits: ["The King in Binds", "O (Original)", "01 (Humanlike)", "None", "WAW", "N/A", "N/A"] },
+{ name: "Wayward Passenger (T-02-21-07)", traits: ["Wayward Passenger", "T (Trauma)", "02 (Animalistic)", "None", "HE", "N/A", "N/A"] },
+{ name: "Skin Prophet (T-03-21-09)", traits: ["Skin Prophet", "T (Trauma)", "03 (Otherworldly)", "None", "TETH", "N/A", "N/A"] },
+{ name: "Ambling Pearl (O-02-21-11)", traits: ["Ambling Pearl", "O (Original)", "02 (Animalistic)", "None", "WAW", "N/A", "N/A"] },
+{ name: "Steam Transport Machine (O-06-21-16)", traits: ["Steam Transport Machine", "O (Original)", "06 (Unidentified)", "None", "HE", "N/A", "N/A"] },
+{ name: "Sign of Roses (O-04-21-22)", traits: ["Sign of Roses", "O (Original)", "04 (Inanimate)", "None", "WAW", "N/A", "N/A"] },
+{ name: "Blubbering Toad (T-01-23-04)", traits: ["Blubbering Toad", "T (Trauma)", "01 (Humanlike)", "None", "ZAYIN", "N/A", "N/A"] }
+        ];
+
+        // Randomly select a mystery character
+        const mysteryCharacter = characters[Math.floor(Math.random() * characters.length)];
+
+        function showSuggestions() {
+            const input = document.getElementById("characterInput").value.toLowerCase();
+            const suggestionsContainer = document.getElementById("autocompleteSuggestions");
+            suggestionsContainer.innerHTML = ""; // Clear previous suggestions
+
+            if (input === "") return;
+
+            const matchingCharacters = characters.filter(c => c.name.toLowerCase().includes(input));
+            matchingCharacters.forEach(character => {
+                const suggestionDiv = document.createElement("div");
+                suggestionDiv.textContent = character.name;
+                suggestionDiv.className = "autocomplete-suggestion";
+                suggestionDiv.onclick = () => {
+                    document.getElementById("characterInput").value = character.name;
+                    suggestionsContainer.innerHTML = "";
+                };
+                suggestionsContainer.appendChild(suggestionDiv);
+            });
+        }
+
+        function submitGuess() {
+            const input = document.getElementById("characterInput");
+            const feedback = document.getElementById("feedback");
+            const traitsTableBody = document.querySelector("#traitsTable tbody");
+
+            const guessedName = input.value.trim();
+            input.value = ""; // Clear the input field
+            document.getElementById("autocompleteSuggestions").innerHTML = ""; // Clear suggestions
+
+            if (!guessedName) {
+                feedback.textContent = "Please enter the name of an abnormality.";
+                feedback.className = "incorrect";
+                return;
+            }
+
+            // Find the guessed character
+            const guessedCharacter = characters.find(c => c.name.toLowerCase() === guessedName.toLowerCase());
+
+            if (!guessedCharacter) {
+                feedback.textContent = `No abnormality named "${guessedName}" found.`;
+                feedback.className = "incorrect";
+                return;
+            }
+
+            feedback.textContent = `You guessed ${guessedCharacter.name}!`;
+            feedback.className = "correct";
+
+            // Add traits row
+            const row = document.createElement("tr");
+            for (let i = 0; i < 7; i++) {
+                const cell = document.createElement("td");
+                const trait = guessedCharacter.traits[i] || "-"; // Handle undefined traits
+                cell.textContent = trait;
+                cell.className = mysteryCharacter.traits.includes(trait) ? "correct-cell" : "incorrect-cell";
+                row.appendChild(cell);
+            }
+            traitsTableBody.appendChild(row);
+
+            // Check if the guess is correct
+            if (guessedCharacter.name === mysteryCharacter.name) {
+                feedback.textContent = `Congratulations! You correctly guessed ${mysteryCharacter.name}!`;
+                feedback.className = "correct";
+                document.getElementById("characterInput").disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
