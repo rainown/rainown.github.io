@@ -64,12 +64,12 @@
             color: white;
         }
         .correct-cell {
-            background-color: rgba(0, 255, 0, 0.3);
+            background-color: rgba(0, 255, 0, 0.2);
             color: white;
             height: 60px;
         }
         .incorrect-cell {
-            background-color: rgba(255, 0, 0, 0.3);
+            background-color: rgba(255, 0, 0, 0.2);
             color: white;
             height: 60px;
         }
@@ -243,7 +243,6 @@
 { name: "Fairy-Long-Legs (F-01-11-15)", traits: ["Fairy-Long-Legs", "F (Fairy Tale)", "01 (Humanlike)", "None", "TETH", "N/A", "N/A"] },
 { name: "So That No One Will Cry (T-04-11-20)", traits: ["So That No One Will Cry", "T (Trauma)", "04 (Inanimate)", "None", "TETH", "N/A", "N/A"] },
 { name: "Headless Ichthys (O-02-11-26)", traits: ["Headless Ichthys", "O (Original)", "02 (Animalistic)", "None", "HE", "N/A", "N/A"] },
-{ name: "Fairy Festival (F-04-83)", traits: ["Fairy Festival", "F (Fairy Tale)", "04 (Inanimate)", "None", "ZAYIN", "N/A", "N/A"] },
 { name: "Funeral of the Dead Butterflies (T-01-68)", traits: ["Funeral of the Dead Butterflies", "T (Trauma)", "01 (Humanlike)", "None", "HE", "N/A", "N/A"] },
 { name: "kqe-1j-23 (O-06-20-02)", traits: ["kqe-1j-23", "O (Original)", "06 (Unidentified)", "None", "HE", "N/A", "N/A"] },
 { name: "Spiral of Contempt (T-03-20-04)", traits: ["Spiral of Contempt", "T (Trauma)", "03 (Otherworldly)", "None", "WAW", "N/A", "N/A"] },
@@ -316,7 +315,7 @@
             const row = document.createElement("tr");
             for (let i = 0; i < 7; i++) {
                 const cell = document.createElement("td");
-                const trait = guessedCharacter.traits[i] || "-"; // Handle undefined traits
+                const trait = guessedCharacter.traits[i] || "-";
                 cell.textContent = trait;
                 cell.className = mysteryCharacter.traits.includes(trait) ? "correct-cell" : "incorrect-cell";
                 row.appendChild(cell);
