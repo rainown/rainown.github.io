@@ -3,11 +3,13 @@
 <head>
 <title>Rain's Pokemon Collection</title>
 <link rel="shortcut icon" type="image/png" href="favicon.png">
+<link href='https://fonts.googleapis.com/css?family=IBM Plex Sans' rel='stylesheet'>
 <style>
         body {
     position: relative;
             color: white;
-	    font-family: monospace;
+            font-family: 'IBM Plex Sans';
+ font-size: 16px;
             align: center
 }
 
@@ -44,22 +46,22 @@ body::before {
             border: 0px solid;
             border-color: #666;
         }
-        .bigtable {
-            border-collapse: separate;
-            border-spacing: 5px; 
-            border: 0px solid black; 
-            border-radius: 15px;
-            transition: transform 0.2s ease;
-            width: 1000px;
-        }
-        .biggishtable {           
-            border-collapse: separate;
+        .box {           
+            background-color: #222222;
+            box-shadow: 5px 5px #111111;
+            width: 200px;
+            margin-top: -30px;
+            padding-top: 20px;
+            padding-bottom: 10px;
+            border-radius: 10px;
             border-spacing: 5px;
-            border: 2px solid white;
-            border-radius: 15px;
-            transition: transform 0.2s ease;
-            width: 400px;
         }
+.column {
+    text-align: center;
+    position: relative;
+    width: 100px;
+    overflow: hidden;
+}
         .unobtable {
             border-collapse: separate;
             border-spacing: 5px;
@@ -69,28 +71,27 @@ body::before {
             width: 400px;
             opacity: 0.3;
         }
-.row {
-  margin-left:-5px;
-  margin-right:-5px;
+  .grey {
+color: #aaaaaa;
 }
-  
 .column {
   float: left;
-  width: 50%;
+  width: 220px;
   padding: 5px;
+    text-align: center;
+    position: relative;
+justify-content: center;
+display: flex;
+flex-wrap: wrap;
 }
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-    .biggishtable:hover {
+
+   .biggishtable:hover {
             transform: translate(5px, 5px);
         }
     .bigtable:hover {
             transform: scale(1.05);
         }
-    .bigtable:hover .sprite {
+    .column:hover .sprite {
     animation: gelatine 1.5s infinite;
         }
     .middletable {
@@ -129,6 +130,14 @@ body::before {
     height: 84px;
     object-fit: contain;
         }
+
+.cplease {
+align-items: center;
+    justify-content: center;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
     .cell {
     width: 96px;
     height: 96px;
@@ -139,6 +148,9 @@ body::before {
             border: solid;
             border-color: white;
         }
+.vc {
+align-items: center;
+}
 .gelatine {
   animation: gelatine 1.5s infinite;
 }
@@ -185,32 +197,31 @@ body::before {
 <button id="button_set4" onclick="showTables('set4')"><table><tr><td><image src="./iconm.png" width="32" height="32"></td></td><td valign="center">Marked Pokemon</td></tr></table></button>
 <button id="button_set5" onclick="showTables('set5')"><table><tr><td><image src="./icona.png" width="32" height="32"></td></td><td valign="center">Shiny Alpha Dex</td></tr></table></button>
 <button id="button_set6" onclick="showTables('set6')"><table><tr><td><image src="./icone.png" width="32" height="32"></td></td><td valign="center">Event Collection</td></tr></table></button><br>
-<br><br>
 
 <button onclick="topFunction()" class="topb" title="Scroll to Top">Scroll To Top</button>
 
 <div id="set1">
-<div style="width:1012px;" align=center id="sheetfill"></div>
+<div style="width:1012px;" align=center class=cplease id="sheetfill"></div>
 <p>loading...</p>
 </div>
 
 <div id="set3" class="hidden">
-<div style="width:1012px;" align=center id="sheetfill3"></div>
+<div style="width:1012px;" align=center class=cplease id="sheetfill3"></div>
 <p>loading...</p>
 </div>
 
 <div id="set4" class="hidden">
-<div style="width:1012px;" align=center id="sheetfill4"></div>
+<div style="width:1012px;" align=center class=cplease id="sheetfill4"></div>
 <p>loading...</p>
 </div>
 
 <div id="set5" class="hidden">
-<div style="width:1012px;" align=center id="sheetfill5"></div>
+<div style="width:1012px;" align=center class=cplease id="sheetfill5"></div>
 <p>loading...</p>
 </div>
 
 <div id="set6" class="hidden">
-<div style="width:1012px;" align=center id="sheetfill6"></div>
+<div style="width:1012px;" align=center class=cplease id="sheetfill6"></div>
 <p>loading...</p>
 </div>
 
