@@ -3,193 +3,13 @@
 <head>
 <title>Rain's Pokemon Collection</title>
 <link rel="shortcut icon" type="image/png" href="favicon.png">
-<link href='https://fonts.googleapis.com/css?family=IBM Plex Sans' rel='stylesheet'>
-<style>
-        body {
-    position: relative;
-            color: white;
-            font-family: 'IBM Plex Sans';
- font-size: 16px;
-            align: center
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('plant.png') no-repeat center center;
-    background-size: 100% 100%;
-    z-index: -1;
-       }
-* {
-  box-sizing: border-box;
-}
-        button {
-            font-family: monospace;
-            background: none;
-            color: white;
-            border: 0px solid;
-            border-color: #333;
-            padding: 3px 3px;
-            margin: 7px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #222;
-        }
-        .active {
-            background-color: #222;
-            border: 0px solid;
-            border-color: #666;
-        }
-        .box {           
-            background-color: #222222;
-            box-shadow: 5px 5px #111111;
-            width: 200px;
-            margin-top: -30px;
-            padding-top: 20px;
-            padding-bottom: 10px;
-            border-radius: 10px;
-            border-spacing: 5px;
-        }
-.column {
-    text-align: center;
-    position: relative;
-    width: 100px;
-    overflow: hidden;
-}
-        .unobtable {
-            border-collapse: separate;
-            border-spacing: 5px;
-            border: 2px solid white;
-            border-radius: 15px;
-            transition: transform 0.2s ease;
-            width: 400px;
-            opacity: 0.3;
-        }
-  .grey {
-color: #aaaaaa;
-}
-.column {
-  float: left;
-  width: 220px;
-  padding: 5px;
-    text-align: center;
-    position: relative;
-justify-content: center;
-display: flex;
-flex-wrap: wrap;
-}
-
-   .biggishtable:hover {
-            transform: translate(5px, 5px);
-        }
-    .bigtable:hover {
-            transform: scale(1.05);
-        }
-    .column:hover .sprite {
-    animation: gelatine 1.5s infinite;
-        }
-    .middletable {
-            width: 400px;
-        }
-    .righttable {
-            width: 250px;
-            padding-bottom: 3px;
-            padding-top: 3px;
-        }
-    .spaced td {
-            padding-bottom: 3px;
-            padding-top: 3px;
-        }
-            td {
-            padding-left: 4px;
-            padding-right: 4px;
-        }
-    .zerosp td {
-            padding-left: -4px;
-            padding-right: -4px;
-        }
-    .hidden {
-            display: none;
-        }
-    .large-image {
-            width: 96px;
-            height: 96px;
-        }
-    .small-image {
-            width: 32px;
-            height: 32px;
-        }
-    .sprite img {
-    width: 84px;
-    height: 84px;
-    object-fit: contain;
-        }
-
-.cplease {
-align-items: center;
-    justify-content: center;
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-}
-    .cell {
-    width: 96px;
-    height: 96px;
-    overflow: hidden;
-        }
-    .hlb {
-            background-color: #555;
-            border: solid;
-            border-color: white;
-        }
-.vc {
-align-items: center;
-}
-.gelatine {
-  animation: gelatine 1.5s infinite;
-}
-@keyframes gelatine {
-  from, to { transform: scale(1, 1); }
-  25% { transform: scale(0.9, 1.1); }
-  50% { transform: scale(1.1, 0.9); }
-  75% { transform: scale(0.95, 1.05); }
-}
-     .lkb {
-            background: none;
-            border: none;
-            border-color: black;
-            transition-duration: 0.3s;
-}
-     .lkb:hover {
-            background: none;
-            border: none;
-}
-        .topb {
-            font-family: monospace;
-  position: fixed; /* Fixed/sticky position */
-  bottom: 20px; /* Place the button at the bottom of the page */
-  right: 30px; /* Place the button 30px from the right */
-  z-index: 99; /* Make sure it does not overlap */
-  background-color: black;
-  border: none; /* Remove borders */
-  outline: none; /* Remove outline */
-  color: white; /* Text color */
-  cursor: pointer; /* Add a mouse pointer on hover */
-  padding: 15px; /* Some padding */
-  border-radius: 10px; /* Rounded corners */
-}
-
-    </style>
+<link rel="stylesheet" href="styles.css">
+</head>
 <body>
 <center>
 <h1><table><tr><td><image src="./un2.png" width=64 height=64></td><td>hello!</td></tr></table></h1>
-<button class=lkb>My name is Rain and this is a little webpage I made to document and display my Pokemon collection.<br>More functionality may be added to the page in the future when I possess more motivation and programming skills.<br>I can be reached @ rainown on Discord if you somehow found this and wanted to contact me.<br>Thanks for reading, and have a nice day/night.</button>
+
+<p>My name is Rain and this is a little webpage I made to document and display my Pokemon collection.<br>More functionality may be added to the page in the future when I possess more motivation and programming skills.<br>I can be reached @ rainown on Discord if you somehow found this and wanted to contact me.<br>Thanks for reading, and have a nice day/night.</p>
 <button class=lkb id="button_set7" onclick="document.location='./pogo'">This page contains my main series Pokemon collection. Click here to instead view my Pokemon GO collection.</button><br>
 
 <button id="button_set1" onclick="showTables('set1')"><table><tr><td><image src="./iconf.png" width="32" height="32"></td><td valign="center">Regular Pokemon</td></tr></table></button>
@@ -201,27 +21,27 @@ align-items: center;
 <button onclick="topFunction()" class="topb" title="Scroll to Top">Scroll To Top</button>
 
 <div id="set1">
-<div style="width:1012px;" align=center class=cplease id="sheetfill"></div>
+<div style="width:90%" align=center class=cplease id="sheetfill"></div>
 <p>loading...</p>
 </div>
 
 <div id="set3" class="hidden">
-<div style="width:1012px;" align=center class=cplease id="sheetfill3"></div>
+<div style="width:90%" align=center class=cplease id="sheetfill3"></div>
 <p>loading...</p>
 </div>
 
 <div id="set4" class="hidden">
-<div style="width:1012px;" align=center class=cplease id="sheetfill4"></div>
+<div style="width:90%" align=center class=cplease id="sheetfill4"></div>
 <p>loading...</p>
 </div>
 
 <div id="set5" class="hidden">
-<div style="width:1012px;" align=center class=cplease id="sheetfill5"></div>
+<div style="width:90%" align=center class=cplease id="sheetfill5"></div>
 <p>loading...</p>
 </div>
 
 <div id="set6" class="hidden">
-<div style="width:1012px;" align=center class=cplease id="sheetfill6"></div>
+<div style="width:90%" align=center class=cplease id="sheetfill6"></div>
 <p>loading...</p>
 </div>
 

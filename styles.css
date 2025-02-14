@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+body {
+	position: relative;
+	color: white;
+	font-family: 'IBM Plex Sans', sans-serif;
+	font-size: 16px;
+        align: center;
+}
+body::before {
+    	content: '';
+    	position: fixed;
+    	top: 0;
+    	left: 0;
+    	width: 100%;
+    	height: 100%;
+	/* background: url('plant.png') no-repeat center center;
+	background-size: 100% 100%; */
+    	background: black;
+	z-index: -1;
+	align-items: center;
+	justify-content: center;
+       }
+* {
+	box-sizing: border-box;
+}
+button {
+	background: none;
+	color: white;
+	border: 0px solid;
+	border-color: #333;
+	padding: 3px 3px;
+	margin: 7px;
+	border-radius: 10px;
+	cursor: pointer;
+        font-family: 'IBM Plex Sans', sans-serif;
+}
+button:hover {
+	background-color: #222;
+}
+.active {
+	background-color: #222;
+	border: 0px solid;
+	border-color: #666;
+}
+.box {           
+	background-color: #222222;
+	box-shadow: 5px 5px #111111;
+	width: 200px;
+	margin-top: -30px;
+	padding-top: 20px;
+	padding-bottom: 10px;
+	border-radius: 10px;
+	border-spacing: 5px;
+}
+.column {
+	float: left;
+	width: 220px;
+	padding: 5px;
+   	text-align: center;
+  	position: relative;
+	justify-content: center;
+	display: flex;
+	flex-wrap: wrap;
+    	overflow: hidden;
+}
+.column:hover .sprite {
+    	animation: gelatine 1.5s infinite;
+}
+.grey {
+	color: #aaaaaa;
+}
+.large-image {
+	width: 96px;
+	height: 96px;
+}
+.small-image {
+	width: 32px;
+	height: 32px;
+}
+.cplease {
+	align-items: center;
+    	justify-content: center;
+    	display: flex;
+    	gap: 5px;
+    	flex-wrap: wrap;
+}
+.cell {
+    	width: 96px;
+    	height: 96px;
+    	overflow: hidden;
+}
+.topb {
+  	position: fixed; 
+  	bottom: 20px;
+  	right: 30px; 
+  	z-index: 99;
+  	background-color: black;
+  	border: none; 
+  	outline: none;
+  	color: white; 
+  	cursor: pointer;
+  	padding: 15px; 
+  	border-radius: 10px;
+}
+.row {
+  	margin-left:-5px;
+  	margin-right:-5px;
+}
+.row::after {
+  	content: "";
+  	clear: both;
+  	display: table;
+}
+.spaced td {
+	padding-bottom: 3px;
+	padding-top: 3px;
+}
+td {
+	padding-left: 4px;
+	padding-right: 4px;
+}
+.zerosp td {
+	padding-left: -4px;
+	padding-right: -4px;
+}
+.hidden {
+	display: none;
+}
+.sprite img {
+    	width: 84px;
+    	height: 84px;
+    	object-fit: contain;
+        }
+.sprite2 img {
+    	width: 128px;
+    	height: 128px;
+    	object-fit: contain;
+}
+.cell {
+    	width: 96px;
+    	height: 96px;
+    	overflow: hidden;
+}
+.hlb {
+	background-color: #555;
+	border: solid;
+	border-color: white;
+}
+.gelatine {
+  	animation: gelatine 1.5s infinite;
+}
+@keyframes gelatine {
+ 	from, to { transform: scale(1, 1); }
+  	25% { transform: scale(0.9, 1.1); }
+  	50% { transform: scale(1.1, 0.9); }
+  	75% { transform: scale(0.95, 1.05); }
+}
+.lkb {
+	background: none;
+	border: none;
+	border-color: black;
+	transition-duration: 0.3s;
+        font-family: 'IBM Plex Sans', sans-serif;
+}
+.lkb:hover {
+	background: none;
+	border: none;
+}
+topb:hover {
+	background-color: #555;
+}
+.bgimage {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.vc {
+    	align-items: center;
+}
+.tier-items {
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	gap: 5px;
+	flex-wrap: wrap;
+}
+.tier-item {
+    	text-align: center;
+    	position: relative;
+    	width: 100px;
+    	height: 100px;
+    	background: #151515;
+    	border-radius: 30px;
+    	overflow: hidden;
+}
+.tier-item:hover {
+	transform: scale(1.05);
+}
+.tier2-item {
+    	text-align: center;
+    	position: relative;
+    	width: 100px;
+    	height: 100px;
+    	overflow: hidden;
+    	border-radius: 30px;
+    	opacity: 0.4;
+}
+.tier-item img {
+    	width: 70px;
+    	height: 70px;
+    	object-fit: contain;
+    	border-radius: 0px;
+    	position: absolute;
+    	top: 0;
+    	left: 0;
+}
+.tier2-item img {
+    	width: 70px;
+    	height: 70px;
+    	object-fit: contain;
+    	border-radius: 0px;
+    	position: absolute;
+    	top: 0;
+    	left: 0;
+}
+.background {
+    	z-index: 0;
+    	opacity: 0.5;
+}
+.tier-item .background {
+    	position: absolute;
+    	top: 50%;
+    	left: 50%;
+    	transform: translate(-52%, -30%);
+    	width: 170%;
+    	height: 170%;
+    	object-fit: cover;
+    	z-index: 0;
+}
+.tier2-item .background {
+    	position: absolute;
+    	top: 50%;
+    	left: 50%;
+    	transform: translate(-52%, -30%);
+    	width: 170%;
+    	height: 170%;
+    	object-fit: cover;
+    	z-index: 0;
+}
+.top {
+    	z-index: 1;
+}
+.tier-item .top {
+    	position: absolute;
+    	top: 10%;
+    	left: 10%;
+    	width: 80%;
+    	height: 80%;
+    	object-fit: contain;
+    	z-index: 1;
+}
+.tier2-item .top {
+    	position: absolute;
+    	top: 10%;
+    	left: 10%;
+    	width: 80%;
+    	height: 80%;
+    	object-fit: contain;
+    	z-index: 1;
+}
+.counter {
+	font-family: monospace;
+	font-size: 170%;
+}
