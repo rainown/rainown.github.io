@@ -6,10 +6,40 @@
 <link rel="stylesheet" href="styles.css">
     </head>
 <body>
+<div width=100% class="navbar">
+<c><image id="menuicon" src="./un2.png" width=64 height=64></image></c>
+<div class="dropdown">
+    <button class="dropbtn">Pokemon Collection ⏷
+    </button>
+    <div class="dropdown-content">
+      <a href="./mainseries">Main Series Pokemon Collection</a>
+      <a href="./pogo">Pokemon GO Shiny Living Dex</a>
+      <a href="./event">Event Pokemon Collection</a>
+    </div>
+  </div> 
+<div class="dropdown">
+    <button class="dropbtn">Pokemon Tools ⏷
+    </button>
+    <div class="dropdown-content">
+      <a href="./raidcalc">GO Raid Boss Utilities</a>
+      <a href="./size">GO Size Checker</a>
+    </div>
+  </div>
+<div class="dropdown">
+    <button class="dropbtn">Other Stuff ⏷
+    </button>
+    <div class="dropdown-content">
+      <a href="./abnordle">Abnordle</a>
+    </div>
+  </div>
+<div class="dropdown">
+    <button onclick="document.location='./about'" class="dropbtn">About</button>
+  </div>
+</div>
+
 <center>
-<h1><table><tr><td><image src="./un2.png" width=64 height=64></td><td>hello!</td></tr></table></h1>
-<p>My name is Rain and this is a little webpage I made to document and display my Pokemon collection.<br>More functionality may be added to the page in the future when I possess more motivation and programming skills.<br>I can be reached @ rainown on Discord if you somehow found this and wanted to contact me.<br>Thanks for reading, and have a nice day/night.</p>
-<button class=lkb onclick="document.location='./mainseries'">This page contains my Pokemon GO collection. Click here to instead view my main series Pokemon collection.</button><br>
+
+    <br><br><br><br>
 
 <button id="button_set7" onclick="showTables('set7')"><table><tr><td><image src="./icons.png" width="32" height="32"></td><td valign="center">Shiny Living Dex</td></tr></table></button>
 <button id="button_set9" onclick="showTables('set9')"><table><tr><td><image src="./iconu.png" width="32" height="32"></td><td valign="center">Show Unobtained Only</td></tr></table></button>
