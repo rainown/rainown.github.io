@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Goodbye PoGO</title>
+<link rel="shortcut icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="styles.css">
+    </head>
+<body>
+<center>
+
+    <br><br><br><br>
+
+<button onclick="topFunction()" class="topb" title="Scroll to Top">Scroll To Top</button>
+
+<div id="set11">
+<div style="width:90%;" align=center id="sheetfill11"></div>
+</div>
+</center>
+
+<script>
+    var currentSet = '';
+    var currentButton = '';
+
+    function showTables(setId) {
+        if (currentSet !== '') {
+            var previousSet = document.getElementById(currentSet);
+            previousSet.classList.add('hidden');
+        }
+
+        var selectedButton = document.getElementById('button_' + setId);
+        selectedButton.classList.add('active');
+
+        if (currentButton !== '') {
+            currentButton.classList.remove('active');
+        }
+        currentButton = document.getElementById('button_' + setId);
+        currentButton.classList.add('active');
+
+        var selectedSet = document.getElementById(setId);
+        selectedSet.classList.remove('hidden');
+
+        currentSet = setId;
+    }
+
+    showTables('set7');
+
+function populateDiv10WithData(data) {
+    const container = document.getElementById('sheetfill10');
+
+    container.innerHTML = '';
+
+    let content = '';
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' ';
+        });
+    });
+
+    container.innerHTML = content.trim();
+}
+
+function populateDiv9WithData(data) {
+    const container = document.getElementById('sheetfill9');
+
+    container.innerHTML = '';
+
+    let content = '';
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' ';
+        });
+    });
+
+    container.innerHTML = content.trim();
+}
+
+function populateDivWithData(data) {
+    const container = document.getElementById('sheetfill7');
+
+    container.innerHTML = ''; // Clear previous content
+
+    let content = ''; // Initialize an empty string to accumulate the content
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' '; // Append each cell's data followed by a space
+        });
+    });
+
+    container.innerHTML = content.trim(); // Set the accumulated content as the inner HTML of the container
+}
+
+function populateDiv11WithData(data) {
+    const container = document.getElementById('sheetfill11');
+
+    container.innerHTML = '';
+
+    let content = '';
+
+    data.values.forEach(rowData => {
+        rowData.forEach(cellData => {
+            content += cellData + ' ';
+        });
+    });
+
+    container.innerHTML = content.trim();
+}
+
+window.onload = fetchData;
+
+        const SPREADSHEET_ID = "18nZiea5nRIqAA42Q-pQpNYCL3ZreuNUqZ0AxuOsn7FY";
+        const API_KEY = "AIzaSyAVF_cJZiGHJm9ImFnK2Ed2S_2Lm_k86Q8";
+        const RANGE11 = "GOTradeSheet!O1:O9999";
+
+function fetchData() {
+
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE11}?key=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => populateDiv11WithData(data))
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+</script>
+<script src="https://unpkg.com/dom-to-image-more/dist/dom-to-image-more.min.js"></script>
+
+</body>
+</html>
