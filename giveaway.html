@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Goodbye PoGO</title>
+<title></title>
 <link rel="shortcut icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="styles.css">
     </head>
 <body>
-<center>
 
-    <br><br><br><br>
+<center>
 
 <button onclick="topFunction()" class="topb" title="Scroll to Top">Scroll To Top</button>
 
@@ -22,75 +21,18 @@
     var currentButton = '';
 
     function showTables(setId) {
-        if (currentSet !== '') {
-            var previousSet = document.getElementById(currentSet);
-            previousSet.classList.add('hidden');
-        }
-
-        var selectedButton = document.getElementById('button_' + setId);
-        selectedButton.classList.add('active');
-
-        if (currentButton !== '') {
-            currentButton.classList.remove('active');
-        }
-        currentButton = document.getElementById('button_' + setId);
-        currentButton.classList.add('active');
-
-        var selectedSet = document.getElementById(setId);
-        selectedSet.classList.remove('hidden');
-
-        currentSet = setId;
+    if (currentSet !== '') {
+        var previousSet = document.getElementById(currentSet);
+        previousSet.classList.add('hidden');
     }
 
+    var selectedSet = document.getElementById(setId);
+    selectedSet.classList.remove('hidden');
+
+    currentSet = setId;
+}
+
     showTables('set11');
-
-function populateDiv10WithData(data) {
-    const container = document.getElementById('sheetfill10');
-
-    container.innerHTML = '';
-
-    let content = '';
-
-    data.values.forEach(rowData => {
-        rowData.forEach(cellData => {
-            content += cellData + ' ';
-        });
-    });
-
-    container.innerHTML = content.trim();
-}
-
-function populateDiv9WithData(data) {
-    const container = document.getElementById('sheetfill9');
-
-    container.innerHTML = '';
-
-    let content = '';
-
-    data.values.forEach(rowData => {
-        rowData.forEach(cellData => {
-            content += cellData + ' ';
-        });
-    });
-
-    container.innerHTML = content.trim();
-}
-
-function populateDivWithData(data) {
-    const container = document.getElementById('sheetfill7');
-
-    container.innerHTML = ''; // Clear previous content
-
-    let content = ''; // Initialize an empty string to accumulate the content
-
-    data.values.forEach(rowData => {
-        rowData.forEach(cellData => {
-            content += cellData + ' '; // Append each cell's data followed by a space
-        });
-    });
-
-    container.innerHTML = content.trim(); // Set the accumulated content as the inner HTML of the container
-}
 
 function populateDiv11WithData(data) {
     const container = document.getElementById('sheetfill11');
@@ -128,7 +70,5 @@ function topFunction() {
 }
 
 </script>
-<script src="https://unpkg.com/dom-to-image-more/dist/dom-to-image-more.min.js"></script>
-
 </body>
 </html>
